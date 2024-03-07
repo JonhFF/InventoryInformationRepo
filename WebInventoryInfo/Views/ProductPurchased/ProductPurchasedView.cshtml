@@ -1,0 +1,170 @@
+﻿﻿@model WebInventoryInfo.CustomClass.ProductPurchasedCustom
+@{
+    ViewBag.Title = "Product Purchased";
+}
+
+<h2>Product Purchased</h2>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+@using (Html.BeginForm("ProductPurchasedView", "ProductPurchased", FormMethod.Post, new { id = "ProductPurchasedId" }))
+{
+    <div class="form-group row">
+        <label class="col-md-2">Date: </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.OrderDate,
+                     new
+                     {
+                         htmlAttributes = new
+                         {
+                             @class = "form-control",
+                             @type = "date",
+                             @name = "OrderDate"
+                         }
+                     })
+            @Html.ValidationMessageFor(model => model.OrderDate)
+
+        </div>
+        <label class="col-md-2">Number: </label>
+        <div class="col-md-4">
+            @Html.EditorFor(model => model.OrderNumber,
+                            new { htmlAttributes = new { @class = "form-control", @name = "OrderNumber" } })
+            @Html.ValidationMessageFor(model => model.OrderNumber)
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-md-2">Product: </label>
+        <div class="col-md-4">
+            @Html.DropDownListFor(model => model.ProductPurchasedDetail[0].ProductId,
+                                  ViewBag.ProductList as SelectList,
+                                  "Select a product",
+                                  new { id = "productId", @class = "form-control" })
+        </div>
+        <label class="col-md-1">Quantity: </label>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.ProductPurchasedDetail[0].QuantityPurchased,
+                            new { htmlAttributes = new { @class = "form-control", id = "Quantity" } })
+        </div>
+        <label class="col-md-1">U. Price: </label>
+        <div class="col-md-2">
+            @Html.EditorFor(model => model.ProductPurchasedDetail[0].UnitPrice,
+                            new { htmlAttributes = new { @class = "form-control", id = "UnitPrice" } })
+        </div>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" onclick="addData()" type="button">Add product detail</button>
+        <button class="btn btn-success" type="submit">Save</button>
+    </div>
+
+    <div class="row">
+        <!-- Display data in a table -->
+        <table id="productDetail">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Intercept the form submission
+        $('#ProductPurchasedId').submit(function (e) {
+            // Prevent the default form submission
+            e.preventDefault();
+            // Serialize the form data
+            var formData = $(this).serialize();
+            debugger
+            // Make the AJAX request
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                success: function (data) {
+                    // Handle the success response
+                    if (data.status)
+                        alert(`${data.message}`);
+                    else
+                        alert(`${data.message}`);
+                    console.log('Success:', data);
+                },
+                error: function (error) {
+                    // Handle the error response
+                    console.log('Error:', error);
+                }
+            });
+        });
+    });
+
+    function addData() {
+        // Get form values
+        var productId = document.getElementById("productId");
+        var productText = productId.options[productId.selectedIndex].text;
+        var Quantity = document.getElementById("Quantity").value;
+        var UnitPrice = document.getElementById("UnitPrice").value;
+
+        // Create a new row in the table
+        var table = document.getElementById("productDetail");
+        var row = table.insertRow(table.rows.length);
+        var rowCount = table.rows.length;
+
+        // Insert data into the row
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+
+        cell1.innerHTML = productText;
+        cell2.innerHTML = Quantity;
+        cell3.innerHTML = UnitPrice;
+
+        // Append hidden input to the row to name of the class
+        var hiddenProductId = document.createElement("input");
+        hiddenProductId.type = "hidden";
+        hiddenProductId.name = `ProductPurchasedDetail[${rowCount - 2}].ProductId`;
+        hiddenProductId.value = productId.value;
+        cell1.appendChild(hiddenProductId);
+
+        // Append hidden input to the row to name of the class
+        var hiddenQuantityPurchased = document.createElement("input");
+        hiddenQuantityPurchased.type = "hidden";
+        hiddenQuantityPurchased.name = `ProductPurchasedDetail[${rowCount - 2}].QuantityPurchased`;
+        hiddenQuantityPurchased.value = Quantity;
+        cell2.appendChild(hiddenQuantityPurchased);
+
+        // Append hidden input to the row to name of the class
+        var hiddenUnitPrice = document.createElement("input");
+        hiddenUnitPrice.type = "hidden";
+        hiddenUnitPrice.name = `ProductPurchasedDetail[${rowCount - 2}].UnitPrice`;
+        hiddenUnitPrice.value = Quantity;
+        cell3.appendChild(hiddenUnitPrice);
+    }
+</script>

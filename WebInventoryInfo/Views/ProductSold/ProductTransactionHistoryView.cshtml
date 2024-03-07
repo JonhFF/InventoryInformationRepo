@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "Product Transaction History";
+}
+
+<h2>
+    Product Transaction History
+</h2>
+
+@{
+    // Retrieve data from ViewBag
+    var productTransArray = ViewBag.productTransactionHistory as IEnumerable<dynamic>;
+}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+
+
+<div class="row">
+    <!-- Display data in a table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Order Date</th>
+                <th>Product Name</th>
+                <th>Product Purchased</th>
+                <th>Product Sold</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (productTransArray != null)
+            {
+                foreach (var data in productTransArray)
+                {
+            <tr>
+                <td>@data.OrderDate</td>
+                <td>@data.ProductName</td>
+                <td>@data.ProductPurchased</td>
+                <td>@data.ProductSold</td>
+            </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">No data available</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

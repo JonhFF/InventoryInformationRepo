@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="InventoryInformationModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductName" Type="varchar" MaxLength="300" Nullable="false" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" />
+          <Property Name="ModifiedBy" Type="int" />
+          <Property Name="ModifiedOn" Type="datetime" />
+        </EntityType>
+        <Function Name="uspGetProductAvailableQuanitity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="uspGetProductTransactionHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="uspSaveProductPurchasedDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductPurchasedId" Type="int" Mode="In" />
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="QuantityPurchased" Type="int" Mode="In" />
+          <Parameter Name="UnitPrice" Type="decimal" Mode="In" />
+        </Function>
+        <Function Name="uspSaveProductPurchasedMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderNumber" Type="int" Mode="In" />
+          <Parameter Name="OrderDate" Type="date" Mode="In" />
+        </Function>
+        <Function Name="uspSaveProductSolddDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ProductSolddId" Type="int" Mode="In" />
+          <Parameter Name="ProductId" Type="int" Mode="In" />
+          <Parameter Name="QuantitySold" Type="int" Mode="In" />
+        </Function>
+        <Function Name="uspSaveProductSoldMaster" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="OrderNumber" Type="int" Mode="In" />
+          <Parameter Name="OrderDate" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="InventoryInformationModelStoreContainer">
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="InventoryInformationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductName" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="Int32" />
+          <Property Name="ModifiedOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="InventoryInformationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <FunctionImport Name="uspGetProductAvailableQuanitity" ReturnType="Collection(InventoryInformationModel.uspGetProductAvailableQuanitity_Result)" />
+          <FunctionImport Name="uspSaveProductPurchasedDetail" ReturnType="Collection(Decimal)">
+            <Parameter Name="ProductPurchasedId" Mode="In" Type="Int32" />
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="QuantityPurchased" Mode="In" Type="Int32" />
+            <Parameter Name="UnitPrice" Mode="In" Type="Decimal" />
+          </FunctionImport>
+          <FunctionImport Name="uspSaveProductPurchasedMaster" ReturnType="Collection(Decimal)">
+            <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
+            <Parameter Name="OrderDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="uspSaveProductSolddDetail" ReturnType="Collection(Decimal)">
+            <Parameter Name="ProductSolddId" Mode="In" Type="Int32" />
+            <Parameter Name="ProductId" Mode="In" Type="Int32" />
+            <Parameter Name="QuantitySold" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="uspSaveProductSoldMaster" ReturnType="Collection(Decimal)">
+            <Parameter Name="OrderNumber" Mode="In" Type="Int32" />
+            <Parameter Name="OrderDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="uspGetProductTransactionHistory" ReturnType="Collection(InventoryInformationModel.uspGetProductTransactionHistory_Result)" />
+        </EntityContainer>
+        <ComplexType Name="uspGetProductAvailableQuanitity_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="300" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="uspGetProductTransactionHistory_Result">
+          <Property Type="DateTime" Name="OrderDate" Nullable="false" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="300" />
+          <Property Type="Int32" Name="ProductPurchased" Nullable="true" />
+          <Property Type="Int32" Name="ProductSold" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="InventoryInformationModelStoreContainer" CdmEntityContainer="InventoryInformationEntities">
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="InventoryInformationModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="uspGetProductAvailableQuanitity" FunctionName="InventoryInformationModel.Store.uspGetProductAvailableQuanitity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventoryInformationModel.uspGetProductAvailableQuanitity_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="uspSaveProductPurchasedDetail" FunctionName="InventoryInformationModel.Store.uspSaveProductPurchasedDetail" />
+          <FunctionImportMapping FunctionImportName="uspSaveProductPurchasedMaster" FunctionName="InventoryInformationModel.Store.uspSaveProductPurchasedMaster" />
+          <FunctionImportMapping FunctionImportName="uspSaveProductSolddDetail" FunctionName="InventoryInformationModel.Store.uspSaveProductSolddDetail" />
+          <FunctionImportMapping FunctionImportName="uspSaveProductSoldMaster" FunctionName="InventoryInformationModel.Store.uspSaveProductSoldMaster" />
+          <FunctionImportMapping FunctionImportName="uspGetProductTransactionHistory" FunctionName="InventoryInformationModel.Store.uspGetProductTransactionHistory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="InventoryInformationModel.uspGetProductTransactionHistory_Result">
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductPurchased" ColumnName="ProductPurchased" />
+                <ScalarProperty Name="ProductSold" ColumnName="ProductSold" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
