@@ -51,53 +51,61 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Model\InventoryInfo.Context.cs">
+    <Compile Include="Implementation\Catalog\ProductDAL.cs" />
+    <Compile Include="Interfaces\Catalog\IProductDAL.cs" />
+    <Compile Include="Interfaces\Utilities\IErrorLogDAL.cs" />
+    <Compile Include="Models\InventoryInfoData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryInfo.Context.tt</DependentUpon>
+      <DependentUpon>InventoryInfoData.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\InventoryInfo.cs">
+    <Compile Include="Models\InventoryInfoData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryInfo.tt</DependentUpon>
+      <DependentUpon>InventoryInfoData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\InventoryInfo.Designer.cs">
+    <Compile Include="Models\InventoryInfoData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InventoryInfo.edmx</DependentUpon>
+      <DependentUpon>InventoryInfoData.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Model\Product.cs">
-      <DependentUpon>InventoryInfo.tt</DependentUpon>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>InventoryInfoData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="Model\InventoryInfo.edmx">
+    <EntityDeploy Include="Models\InventoryInfoData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>InventoryInfo.Designer.cs</LastGenOutput>
+      <LastGenOutput>InventoryInfoData.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Model\InventoryInfo.edmx.diagram">
-      <DependentUpon>InventoryInfo.edmx</DependentUpon>
+    <None Include="Models\InventoryInfoData.edmx.diagram">
+      <DependentUpon>InventoryInfoData.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\InventoryInfo.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InventoryInfo.Context.cs</LastGenOutput>
-      <DependentUpon>InventoryInfo.edmx</DependentUpon>
-    </Content>
-    <Content Include="Model\InventoryInfo.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InventoryInfo.edmx</DependentUpon>
-      <LastGenOutput>InventoryInfo.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <ProjectReference Include="..\InventoryInfoEntities\InventoryInfoEntities.csproj">
+      <Project>{79D7656C-83A2-444E-98F8-05D88FE2CCE8}</Project>
+      <Name>InventoryInfoEntities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Models\InventoryInfoData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InventoryInfoData.edmx</DependentUpon>
+      <LastGenOutput>InventoryInfoData.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\InventoryInfoData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InventoryInfoData.edmx</DependentUpon>
+      <LastGenOutput>InventoryInfoData.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

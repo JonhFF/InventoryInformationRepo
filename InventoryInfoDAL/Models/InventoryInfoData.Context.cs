@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace InventoryInfoDAL.Model
+namespace InventoryInfoDAL.Models
 {
     using System;
     using System.Data.Entity;
